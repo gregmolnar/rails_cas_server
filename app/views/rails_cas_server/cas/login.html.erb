@@ -1,1 +1,16 @@
-Form goes here.
+<div id="form">
+  <%= form_tag('/login') do %>
+    <div>
+      <%= label_tag "Username" %>
+      <%= text_field_tag :login %>
+    </div>
+    <div>
+      <%= label_tag "Password" %>
+      <%= password_field_tag :password %>
+    </div>
+    <div>
+      <%= hidden_field_tag :lt, value: @lt %>
+      <%= submit_tag "Login" %>
+    </div>
+  <% end %>
+</div>
