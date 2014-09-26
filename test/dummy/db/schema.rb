@@ -13,11 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20140907213834) do
 
-  create_table "rails_cas_server_login_tickets", force: true do |t|
+  create_table "login_tickets", force: true do |t|
     t.string "ticket", null: false
     t.string "host",   null: false
   end
-
-  add_index "rails_cas_server_login_tickets", ["ticket", "host"], name: "index_rails_cas_server_login_tickets_on_ticket_and_host"
 
 end
