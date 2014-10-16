@@ -10,7 +10,7 @@ mount RailsCasServer::Engine, at: "/"
 
 ## Protocol
 
-http://jasig.github.io/cas/4.0.0/protocol/CAS-Protocol.html
+https://www.apereo.org/cas/protocol
 
 ## Licence
 
