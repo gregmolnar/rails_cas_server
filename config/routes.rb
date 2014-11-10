@@ -1,4 +1,4 @@
 RailsCasServer::Engine.routes.draw do
-  get 'login' => 'rails_cas_server/cas#login'
-  post 'login' => 'rails_cas_servercas#sign_in'
+  get 'login' => 'rails_cas_server/cas#login', as: :login
+  post 'login' => 'rails_cas_server/cas#sign_in'
 end

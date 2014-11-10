@@ -11,11 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140907213834) do
+ActiveRecord::Schema.define(version: 20141108204941) do
 
   create_table "login_tickets", force: true do |t|
     t.string "ticket", null: false
     t.string "host",   null: false
   end
+
+  add_index "login_tickets", ["ticket", "host"], name: "index_login_tickets_on_ticket_and_host"
 
 end

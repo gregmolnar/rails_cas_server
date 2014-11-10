@@ -1,3 +1,6 @@
+ <% flash.each do |name, msg| -%>
+  <%= content_tag :div, msg, class: name %>
+<% end -%>
 <div id="form">
   <%= form_tag('/login') do %>
     <div>
@@ -9,7 +12,7 @@
       <%= password_field_tag :password %>
     </div>
     <div>
-      <%= hidden_field_tag :lt, value: @lt %>
+      <%= hidden_field_tag :lt, @lt.to_s %>
       <%= submit_tag "Login" %>
     </div>
   <% end %>
