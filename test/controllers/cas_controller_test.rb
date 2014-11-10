@@ -30,10 +30,10 @@ class RailsCasServer::CasControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "it it redirects to service if provided" do
+  test "it redirects to service if provided" do
     ticket = RailsCasServer::LoginTicket.create!(host: '0.0.0.0')
     post :sign_in, lt: ticket.ticket, username: 'johndoe', password: '123456', service: 'https://myservice.mytld', use_route: :rails_cas_server
-    assert_redirected_to 'https://myservice.mytld'
+    assert_redirected_to "https://myservice.mytld?ticket=#{RailsCasServer::ServiceTicket.last}"
   end
 
   test "it rejects invalid service ticket" do

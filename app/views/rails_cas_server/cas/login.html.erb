@@ -13,6 +13,7 @@
     </div>
     <div>
       <%= hidden_field_tag :lt, @lt.to_s %>
+      <%= hidden_field_tag :service, params[:service].to_s unless params[:service].nil? %>
       <%= submit_tag "Login" %>
     </div>
   <% end %>
