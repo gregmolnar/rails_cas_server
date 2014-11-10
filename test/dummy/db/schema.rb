@@ -28,4 +28,7 @@ ActiveRecord::Schema.define(version: 20141110204115) do
     t.string "session_id", null: false
   end
 
+  add_index "service_tickets", ["session_id"], name: "index_service_tickets_on_session_id"
+  add_index "service_tickets", ["ticket"], name: "index_service_tickets_on_ticket"
+
 end

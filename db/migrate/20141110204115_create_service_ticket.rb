@@ -7,5 +7,7 @@ class CreateServiceTicket < ActiveRecord::Migration
       t.string :service
       t.string :session_id, null: false
     end
+    add_index :service_tickets, :ticket
+    add_index :service_tickets, :session_id
   end
 end
