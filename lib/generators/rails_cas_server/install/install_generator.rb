@@ -19,6 +19,9 @@ module RailsCasServer
 
 RailsCasServer.configure do |config|
   config.authenticator = authenticator
+  config.allowed_services = {
+    'localhost:9494' => ['127.0.0.1']
+  }
 end
 "
     end

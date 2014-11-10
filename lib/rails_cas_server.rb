@@ -17,7 +17,7 @@ module RailsCasServer
   end
 
   class Configuration
-    attr_accessor :authenticator
+    attr_accessor :authenticator, :allowed_services
   end
 
   class ConfigurationError < Exception
