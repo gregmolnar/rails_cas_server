@@ -35,4 +35,17 @@ class RailsCasServer::CasControllerTest < ActionController::TestCase
     post :sign_in, lt: ticket.ticket, username: 'johndoe', password: '123456', service: 'https://myservice.mytld', use_route: :rails_cas_server
     assert_redirected_to 'https://myservice.mytld'
   end
+
+  test "it rejects invalid service ticket" do
+    get :validate, ticket: 'foobar', use_route: :rails_cas_server
+    assert_response :success
+    assert_equal "no\n\n", response.body
+  end
+
+  test "it approves valid service ticket" do
+    ticket = RailsCasServer::ServiceTicket.create!(host: '0.0.0.0', session_id: session.id, username: 'test')
+    get :validate, ticket: ticket.to_s, use_route: :rails_cas_server
+    assert_response :success
+    assert_equal "yes\n", response.body
+  end
 end

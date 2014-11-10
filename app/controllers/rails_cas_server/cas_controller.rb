@@ -18,4 +18,14 @@ class RailsCasServer::CasController < ApplicationController
       redirect_to "/login", status: 401, alert: "Invalid login"
     end
   end
+
+  def validate
+    ticket = RailsCasServer::ServiceTicket.where(session_id: session.id, ticket: params[:ticket]).where("service IS NULL or service = ?", params[:service]).first
+    if ticket.nil?
+      render text: "no\n\n"
+    else
+      ticket.touch
+      render text: "yes\n"
+    end
+  end
 end
