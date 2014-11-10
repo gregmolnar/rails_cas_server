@@ -11,8 +11,8 @@ module RailsCasServer
 # end
 
 # class DummyAuthenticator < RailsCasServer::Authenticators::Base
-#   def verify(login, password)
-#     login == 'admin' && password == 'p@ssword'
+#   def verify(username, password)
+#     username == 'admin' && password == 'p@ssword'
 #   end
 # end
 # authenticator = DummyAuthenticator
