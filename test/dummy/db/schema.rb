@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141108204941) do
+ActiveRecord::Schema.define(version: 20141110204115) do
 
   create_table "login_tickets", force: true do |t|
     t.string "ticket", null: false
@@ -19,5 +19,13 @@ ActiveRecord::Schema.define(version: 20141108204941) do
   end
 
   add_index "login_tickets", ["ticket", "host"], name: "index_login_tickets_on_ticket_and_host"
+
+  create_table "service_tickets", force: true do |t|
+    t.string "ticket",     null: false
+    t.string "host",       null: false
+    t.string "username",   null: false
+    t.string "service"
+    t.string "session_id", null: false
+  end
 
 end
