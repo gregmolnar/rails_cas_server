@@ -10,4 +10,12 @@ class RailsCasServer::ServiceTicket < ActiveRecord::Base
     self.cookie = generate_ticket('TGC')
   end
 
+  def consumed?
+    !self.consumed_at.nil?
+  end
+
+  def consume!
+    update_attribute(:consumed_at, Time.now)
+  end
+
 end

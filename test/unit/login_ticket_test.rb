@@ -6,5 +6,4 @@ class LoginTicketTest < ActiveSupport::TestCase
     ticket = RailsCasServer::LoginTicket.create!(host: '0.0.0.0')
     assert_not_nil ticket.ticket
   end
-
 end
