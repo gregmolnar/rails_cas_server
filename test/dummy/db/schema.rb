@@ -14,19 +14,24 @@
 ActiveRecord::Schema.define(version: 20141110204115) do
 
   create_table "login_tickets", force: true do |t|
-    t.string "ticket", null: false
-    t.string "host",   null: false
+    t.string   "ticket",     null: false
+    t.string   "host",       null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "login_tickets", ["ticket", "host"], name: "index_login_tickets_on_ticket_and_host"
 
   create_table "service_tickets", force: true do |t|
-    t.string "ticket",     null: false
-    t.string "host",       null: false
-    t.string "username",   null: false
-    t.string "service"
-    t.string "session_id", null: false
-    t.string "cookie",     null: false
+    t.string   "ticket",      null: false
+    t.string   "host",        null: false
+    t.string   "username",    null: false
+    t.string   "service"
+    t.string   "session_id",  null: false
+    t.string   "cookie",      null: false
+    t.datetime "consumed_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "service_tickets", ["cookie"], name: "index_service_tickets_on_cookie"
