@@ -9,7 +9,7 @@ class RailsCasServer::CasController < ApplicationController
       ticket = RailsCasServer::ServiceTicket.create!(username: params[:username], host: request.ip, session_id: session.id, service: params[:service])
       cookies.signed[:tgt] = ticket.cookie
       if !params[:service].nil? and RailsCasServer.configuration.allowed_services.keys.include?(URI(params[:service]).host)
-        redirect_to "#{params[:service]}?ticket=#{ticket}"
+        redirect_to "#{params[:service]}?ticket=#{ticket.to_s}"
       else
         flash[:notice] = "Successfull login"
         render(action: :login)
@@ -26,6 +26,16 @@ class RailsCasServer::CasController < ApplicationController
     else
       ticket.touch
       render text: "yes\n"
+    end
+  end
+
+  def proxy_validate
+    @ticket = RailsCasServer::ServiceTicket.not_consumed.where(ticket: params[:ticket]).where("service IS NULL or service = ?", params[:service]).first
+    if @ticket.nil?
+      render :service_validate_error, formats: [:xml]
+    else
+      @ticket.consume!
+      render :service_validate_success, formats: [:xml]
     end
   end
 

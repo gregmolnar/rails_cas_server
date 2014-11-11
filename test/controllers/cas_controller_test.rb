@@ -54,4 +54,29 @@ class RailsCasServer::CasControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal "yes\n", response.body
   end
+
+  test "it rejects wrong service ticket on proxyValidate" do
+    ticket = RailsCasServer::ServiceTicket.create!(host: '0.0.0.0', session_id: session.id, username: 'test')
+    get :proxy_validate, ticket: "nonono", use_route: :rails_cas_server
+    assert_response :success
+    assert_equal "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<cas:serviceResponse xmlns:cas=\"http://www.yale.edu/tp/cas\">
+  <cas:authenticationFailure code=\"BAD_PGT\">Invalid ticket</cas:authenticationFailure>
+</cas:serviceResponse>
+", response.body
+  end
+
+  test "it validates service ticket on proxyValidate" do
+    ticket = RailsCasServer::ServiceTicket.create!(host: '0.0.0.0', session_id: session.id, username: 'test')
+    cookies.signed[:tgt] = ticket.cookie
+    get :proxy_validate, ticket: ticket.to_s, use_route: :rails_cas_server
+    assert_response :success
+    assert_equal "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<cas:serviceResponse xmlns:cas=\"http://www.yale.edu/tp/cas\">
+  <cas:authenticationSuccess>
+    <cas:user>#{ticket.username}</cas:user>
+  </cas:authenticationSuccess>
+</cas:serviceResponse>
+", response.body
+  end
 end

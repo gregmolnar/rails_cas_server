@@ -6,8 +6,8 @@ module Ticket
   included do
     before_save :generate_ticket
     scope :valid, ->(ticket) { where(ticket: ticket) }
-    def generate_ticket(prefix = nil)
-      self.ticket = "#{prefix || self.prefix}-#{SecureRandom.uuid}"
+    def generate_ticket
+      self.ticket = "#{self.prefix}-#{SecureRandom.uuid}"
     end
 
     def to_s
