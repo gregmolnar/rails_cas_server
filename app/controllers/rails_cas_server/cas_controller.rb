@@ -7,6 +7,7 @@ class RailsCasServer::CasController < ApplicationController
     return redirect_to("/login", status: 500, alert: "Invalid login ticket") if RailsCasServer::LoginTicket.valid(params[:lt]).first.nil?
     if RailsCasServer.configuration.authenticator.new.verify(params[:username], params[:password])
       ticket = RailsCasServer::ServiceTicket.create!(username: params[:username], host: request.ip, session_id: session.id, service: params[:service])
+      cookies.signed[:tgt] = ticket.cookie
       if !params[:service].nil? and RailsCasServer.configuration.allowed_services.keys.include?(URI(params[:service]).host)
         redirect_to "#{params[:service]}?ticket=#{ticket}"
       else
@@ -27,4 +28,5 @@ class RailsCasServer::CasController < ApplicationController
       render text: "yes\n"
     end
   end
+
 end

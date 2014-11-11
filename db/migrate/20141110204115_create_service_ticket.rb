@@ -6,8 +6,10 @@ class CreateServiceTicket < ActiveRecord::Migration
       t.string :username, null: false
       t.string :service
       t.string :session_id, null: false
+      t.string :cookie, null: false
     end
     add_index :service_tickets, :ticket
+    add_index :service_tickets, :cookie
     add_index :service_tickets, :session_id
   end
 end
