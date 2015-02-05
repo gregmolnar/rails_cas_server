@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141110204115) do
+ActiveRecord::Schema.define(version: 20150205165624) do
 
   create_table "login_tickets", force: true do |t|
     t.string   "ticket",     null: false
@@ -37,5 +37,15 @@ ActiveRecord::Schema.define(version: 20141110204115) do
   add_index "service_tickets", ["cookie"], name: "index_service_tickets_on_cookie"
   add_index "service_tickets", ["session_id"], name: "index_service_tickets_on_session_id"
   add_index "service_tickets", ["ticket"], name: "index_service_tickets_on_ticket"
+
+  create_table "sessions", force: true do |t|
+    t.string   "session_id", null: false
+    t.text     "data"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", unique: true
+  add_index "sessions", ["updated_at"], name: "index_sessions_on_updated_at"
 
 end
