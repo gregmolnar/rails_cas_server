@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency "rails", "~> 4.1.4"
   s.add_dependency "activerecord-session_store"
+  s.add_dependency "secure_headers"
   s.add_development_dependency "sqlite3"
   s.add_development_dependency "pry"
   s.add_development_dependency "capybara"
