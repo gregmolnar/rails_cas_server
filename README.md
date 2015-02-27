@@ -2,7 +2,14 @@
 
 # Setup
 
-Generate a Rails app and mount the engine to "/":
+Generate a Rails app and add to the Gemfile:
+
+```
+gem 'rails_cas_server', github: 'gregmolnar/rails_cas_server'
+
+```
+
+Then mount the engine to "/":
 
 ```
 mount RailsCasServer::Engine, at: "/"
