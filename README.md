@@ -15,6 +15,12 @@ Then mount the engine to "/":
 mount RailsCasServer::Engine, at: "/"
 ```
 
+Then run the following command:
+
+```
+bin/rails g rails_cas_server:install
+```
+
 ## Protocol
 
 https://www.apereo.org/cas/protocol
