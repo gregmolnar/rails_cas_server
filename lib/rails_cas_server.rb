@@ -1,6 +1,8 @@
+require "secure_headers"
 require "rails_cas_server/engine"
 require "rails_cas_server/authenticators/base"
 require "rails_cas_server/authenticators/sql_authenticator"
+
 module RailsCasServer
 
   class << self
