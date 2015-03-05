@@ -15,10 +15,12 @@ Then mount the engine to "/":
 mount RailsCasServer::Engine, at: "/"
 ```
 
-Then run the following command:
+Then run the following commands:
 
 ```
 bin/rails g rails_cas_server:install
+bin/rake rails_cas_server_engine:install:migrations
+bin/rake db:create db:migrate
 ```
 
 ## Protocol
