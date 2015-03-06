@@ -36,6 +36,14 @@ class RailsCasServer::CasControllerTest < ActionController::TestCase
     assert_redirected_to "https://myservice.mytld?ticket=#{RailsCasServer::ServiceTicket.last}"
   end
 
+  test "it redirects to service if already logged in" do
+    ticket = RailsCasServer::LoginTicket.create!(host: '0.0.0.0')
+    post :sign_in, lt: ticket.ticket, username: 'johndoe', password: '123456', service: 'https://myservice.mytld', use_route: :rails_cas_server
+    assert_redirected_to "https://myservice.mytld?ticket=#{RailsCasServer::ServiceTicket.last}"
+    get :login, service: 'https://myservice.mytld', use_route: :rails_cas_server
+    assert_redirected_to "https://myservice.mytld?ticket=#{RailsCasServer::ServiceTicket.last}"
+  end
+
   test "it does not redirect to not allowed service" do
     ticket = RailsCasServer::LoginTicket.create!(host: '0.0.0.0')
     post :sign_in, lt: ticket.ticket, username: 'johndoe', password: '123456', service: 'https://badguy.mytld', use_route: :rails_cas_server

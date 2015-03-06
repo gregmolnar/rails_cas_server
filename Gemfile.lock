@@ -3,8 +3,8 @@ PATH
   specs:
     rails_cas_server (0.0.1)
       activerecord-session_store
-      rails (~> 4.1.4)
-      secure_headers
+      rails (> 4.0.0)
+      secure_headers (~> 2.0.0)
 
 GEM
   remote: https://rubygems.org/
@@ -64,7 +64,7 @@ GEM
     mime-types (1.25.1)
     mini_portile (0.6.0)
     minitest (5.5.1)
-    multi_json (1.10.1)
+    multi_json (1.11.0)
     nokogiri (1.6.3.1)
       mini_portile (= 0.6.0)
     pry (0.10.0)
