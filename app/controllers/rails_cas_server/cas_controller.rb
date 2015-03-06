@@ -42,4 +42,10 @@ class RailsCasServer::CasController < ApplicationController
     end
   end
 
+  def logout
+    RailsCasServer::ServiceTicket.destroy_all(session_id: session.id)
+    cookies.delete(:tgt)
+    redirect_to '/login'
+  end
+
 end
