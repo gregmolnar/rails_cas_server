@@ -34,11 +34,10 @@ class RailsCasServer::CasController < ApplicationController
   end
 
   def proxy_validate
-    @ticket = RailsCasServer::ServiceTicket.not_consumed.where(ticket: params[:ticket]).where("service IS NULL or service = ?", params[:service]).first
+    @ticket = RailsCasServer::ServiceTicket.where(ticket: params[:ticket]).where("service IS NULL or service = ?", params[:service]).first
     if @ticket.nil?
       render :service_validate_error, formats: [:xml]
     else
-      @ticket.consume!
       render :service_validate_success, formats: [:xml]
     end
   end
