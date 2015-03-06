@@ -1,7 +1,9 @@
 class RailsCasServer::CasController < ApplicationController
   def login
     ticket = RailsCasServer::ServiceTicket.find_by(host: request.ip, session_id: session.id)
-    redirect_to "#{params[:service]}?ticket=#{ticket.to_s}" unless ticket.nil?
+    if params[:redirection_loop_intercepted].nil? && !ticket.nil? && !params[:service].nil?
+      redirect_to "#{params[:service]}?ticket=#{ticket.to_s}"
+    end
     @lt = RailsCasServer::LoginTicket.create!(host: request.ip)
   end
 
