@@ -1,20 +1,27 @@
- <% flash.each do |name, msg| -%>
-  <%= content_tag :div, msg, class: name %>
-<% end -%>
-<div id="form">
-  <%= form_tag('/login') do %>
-    <div>
-      <%= label_tag "Username" %>
-      <%= text_field_tag :username %>
+<div class="sign_in">
+  <div id="form">
+    <% flash.each do |name, msg| -%>
+      <%= content_tag :div, msg, class: "alert alert-#{name}" %>
+    <% end -%>
+    <%= form_tag('/login') do %>
+      <h2>Single Sign On</h2>
+      <div class="form-inputs">
+        <div>
+          <%= label_tag "Username" %>
+          <%= text_field_tag :username %>
+        </div>
+        <div>
+          <%= label_tag "Password" %>
+          <%= password_field_tag :password %>
+        </div>
+        <div>
+          <%= hidden_field_tag :lt, @lt.to_s %>
+          <%= hidden_field_tag :service, params[:service].to_s unless params[:service].nil? %>
+          <%= submit_tag "Login", class: 'btn btn-primary' %>
+        </div>
+      </div>
+    <% end %>
+    <div class="modal-footer">
     </div>
-    <div>
-      <%= label_tag "Password" %>
-      <%= password_field_tag :password %>
-    </div>
-    <div>
-      <%= hidden_field_tag :lt, @lt.to_s %>
-      <%= hidden_field_tag :service, params[:service].to_s unless params[:service].nil? %>
-      <%= submit_tag "Login" %>
-    </div>
-  <% end %>
+  </div>
 </div>
