@@ -7,17 +7,17 @@ require "rails_cas_server/version"
 Gem::Specification.new do |s|
   s.name        = "rails_cas_server"
   s.version     = RailsCasServer::VERSION
-  s.authors     = ["TODO: Your name"]
-  s.email       = ["TODO: Your email"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of RailsCasServer."
-  s.description = "TODO: Description of RailsCasServer."
+  s.authors     = ["Greg Molnar"]
+  s.email       = ["greg@molnar.io"]
+  s.homepage    = "https://github.com/gregmolnar/rails_cas_server"
+  s.summary     = "Summary of RailsCasServer."
+  s.description = "Description of RailsCasServer."
   s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
   s.test_files = Dir["test/**/*"]
 
-  s.add_dependency "rails", "> 4.0.0"
+  s.add_dependency "rails", "~> 5.0.0"
   s.add_dependency "activerecord-session_store"
   s.add_dependency "secure_headers", '~> 2.0.0'
   s.add_development_dependency "sqlite3"

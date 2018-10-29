@@ -47,5 +47,4 @@ class RailsCasServer::CasController < ApplicationController
     cookies.delete(:tgt)
     redirect_to '/login'
   end
-
 end
