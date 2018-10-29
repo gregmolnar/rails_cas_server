@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
   s.test_files = Dir["test/**/*"]
 
-  s.add_dependency "rails", "~> 5.0.0"
+  s.add_dependency "rails", "~> 5.2.0"
   s.add_dependency "activerecord-session_store"
   s.add_dependency "secure_headers", '~> 2.0.0'
   s.add_development_dependency "sqlite3"
