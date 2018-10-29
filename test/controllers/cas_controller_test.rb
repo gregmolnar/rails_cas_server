@@ -15,57 +15,56 @@ class RailsCasServer::CasControllerTest < ActionController::TestCase
   end
 
   test "should get login" do
-    get :login, use_route: :rails_cas_server
+    get :login, params: { use_route: :rails_cas_server }
     assert_response :success
   end
 
   test "it refuses invalid login ticket" do
-    post :sign_in, lt: "Foobar", use_route: :rails_cas_server
+    post :sign_in, params: { lt: "Foobar", use_route: :rails_cas_server }
     assert_response :error
   end
 
   test "it accepts valid login ticket" do
     ticket = RailsCasServer::LoginTicket.create!(host: '0.0.0.0')
-    post :sign_in, lt: ticket.ticket, username: 'johndoe', password: '123456', use_route: :rails_cas_server
+    post :sign_in, params: { lt: ticket.ticket, username: 'johndoe', password: '123456', use_route: :rails_cas_server }
     assert_response :success
   end
 
   test "it redirects to service if provided" do
     ticket = RailsCasServer::LoginTicket.create!(host: '0.0.0.0')
-    post :sign_in, lt: ticket.ticket, username: 'johndoe', password: '123456', service: 'https://myservice.mytld', use_route: :rails_cas_server
+    post :sign_in, params: { lt: ticket.ticket, username: 'johndoe', password: '123456', service: 'https://myservice.mytld', use_route: :rails_cas_server }
     assert_redirected_to "https://myservice.mytld?ticket=#{RailsCasServer::ServiceTicket.last}"
   end
 
   test "it redirects to service if already logged in" do
     ticket = RailsCasServer::LoginTicket.create!(host: '0.0.0.0')
-    post :sign_in, lt: ticket.ticket, username: 'johndoe', password: '123456', service: 'https://myservice.mytld', use_route: :rails_cas_server
+    post :sign_in, params: { lt: ticket.ticket, username: 'johndoe', password: '123456', service: 'https://myservice.mytld', use_route: :rails_cas_server }
     assert_redirected_to "https://myservice.mytld?ticket=#{RailsCasServer::ServiceTicket.last}"
-    get :login, service: 'https://myservice.mytld', use_route: :rails_cas_server
+    get :login, params: { service: 'https://myservice.mytld', use_route: :rails_cas_server }
     assert_redirected_to "https://myservice.mytld?ticket=#{RailsCasServer::ServiceTicket.last}"
   end
 
   test "it does not redirect to not allowed service" do
     ticket = RailsCasServer::LoginTicket.create!(host: '0.0.0.0')
-    post :sign_in, lt: ticket.ticket, username: 'johndoe', password: '123456', service: 'https://badguy.mytld', use_route: :rails_cas_server
+    post :sign_in, params: { lt: ticket.ticket, username: 'johndoe', password: '123456', service: 'https://badguy.mytld', use_route: :rails_cas_server }
     assert_response :success
   end
 
   test "it rejects invalid service ticket" do
-    get :validate, ticket: 'foobar', use_route: :rails_cas_server
+    get :validate, params: { ticket: 'foobar', use_route: :rails_cas_server }
     assert_response :success
     assert_equal "no\n\n", response.body
   end
 
   test "it approves valid service ticket" do
     ticket = RailsCasServer::ServiceTicket.create!(host: '0.0.0.0', session_id: session.id, username: 'test')
-    get :validate, ticket: ticket.to_s, use_route: :rails_cas_server
+    get :validate, params: { ticket: ticket.to_s, use_route: :rails_cas_server }
     assert_response :success
     assert_equal "yes\n", response.body
   end
 
   test "it rejects wrong service ticket on proxyValidate" do
-    ticket = RailsCasServer::ServiceTicket.create!(host: '0.0.0.0', session_id: session.id, username: 'test')
-    get :proxy_validate, ticket: "nonono", use_route: :rails_cas_server
+    get :proxy_validate, params: { ticket: "nonono", use_route: :rails_cas_server }
     assert_response :success
     assert_equal "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
 <cas:serviceResponse xmlns:cas=\"http://www.yale.edu/tp/cas\">
@@ -77,7 +76,7 @@ class RailsCasServer::CasControllerTest < ActionController::TestCase
   test "it validates service ticket on proxyValidate" do
     ticket = RailsCasServer::ServiceTicket.create!(host: '0.0.0.0', session_id: session.id, username: 'test')
     cookies.signed[:tgt] = ticket.cookie
-    get :proxy_validate, ticket: ticket.to_s, use_route: :rails_cas_server
+    get :proxy_validate, params: { ticket: ticket.to_s, use_route: :rails_cas_server }
     assert_response :success
     assert_equal "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
 <cas:serviceResponse xmlns:cas=\"http://www.yale.edu/tp/cas\">
@@ -90,10 +89,10 @@ class RailsCasServer::CasControllerTest < ActionController::TestCase
 
   test "it signs out" do
     ticket = RailsCasServer::LoginTicket.create!(host: '0.0.0.0')
-    post :sign_in, lt: ticket.ticket, username: 'johndoe', password: '123456', service: 'https://myservice.mytld', use_route: :rails_cas_server
+    post :sign_in, params: { lt: ticket.ticket, username: 'johndoe', password: '123456', service: 'https://myservice.mytld', use_route: :rails_cas_server }
     assert_not_nil cookies.signed[:tgt]
     assert_not_nil RailsCasServer::ServiceTicket.find_by(session_id: session.id)
-    get :logout, use_route: :rails_cas_server
+    get :logout, params: { use_route: :rails_cas_server }
     assert_redirected_to '/login'
     assert_nil cookies.signed[:tgt]
     assert_nil RailsCasServer::ServiceTicket.find_by(session_id: session.id)

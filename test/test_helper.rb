@@ -17,7 +17,7 @@ RailsCasServer.configure do |config|
   }
 end
 
-unless ActiveRecord::Base.connection.table_exists?(:users)
+unless ActiveRecord::Base.connection.data_source_exists?(:users)
   ActiveRecord::Schema.define do
     create_table :users do |t|
       t.string :username

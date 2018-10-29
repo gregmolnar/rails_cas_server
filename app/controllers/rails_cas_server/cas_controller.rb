@@ -26,10 +26,10 @@ class RailsCasServer::CasController < ApplicationController
   def validate
     ticket = RailsCasServer::ServiceTicket.where(session_id: session.id, ticket: params[:ticket]).where("service IS NULL or service = ?", params[:service]).first
     if ticket.nil?
-      render text: "no\n\n"
+      render body: "no\n\n"
     else
       ticket.touch
-      render text: "yes\n"
+      render body: "yes\n"
     end
   end
 
@@ -43,7 +43,7 @@ class RailsCasServer::CasController < ApplicationController
   end
 
   def logout
-    RailsCasServer::ServiceTicket.destroy_all(session_id: session.id)
+    RailsCasServer::ServiceTicket.where(session_id: session.id).destroy_all
     cookies.delete(:tgt)
     redirect_to '/login'
   end
